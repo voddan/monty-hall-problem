@@ -1,17 +1,18 @@
 package simulation
 
-typealias Strategy = (closedIndices: List<Int>) -> Int
+abstract class GameStrategy {
+    abstract fun invoke(closedIndices: List<Int>): Int
+}
 
-fun byIndex(strategyByIndex: (count: Int) -> Int): Strategy = { indices -> indices[strategyByIndex(indices.size)]}
 
-class Game(val lottery: Lottery, val strategy: Strategy) {
+class Game(val lottery: Lottery, val strategy: GameStrategy) {
     val recordStringBuilder = StringBuilder()
 
     fun play(): Boolean {
         assert(recordStringBuilder.isEmpty())
 
         do {
-            val guessIndex = strategy(lottery.closedIndices)
+            val guessIndex = strategy.invoke(lottery.closedIndices)
             assert(lottery.boxes[guessIndex].isClosed)
 
             recordStringBuilder.append(printLottery(guessIndex))

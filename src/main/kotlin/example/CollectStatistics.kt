@@ -1,25 +1,25 @@
 package example.collectStatistics
 
-import simulation.Game
-import simulation.Lottery
-import simulation.LotteryRules
-import simulation.byIndex
-import java.util.*
+import example.ConstantStrategy
+import example.DriftStrategy
+import example.HesitantStrategy
+import example.RandomStrategy
+import simulation.*
 
 val rules = LotteryRules(numPriseBoxes = 1, numEmptyBoxes = 9, numOpenBoxes = 1)
-val SAMPLE_SIZE = 10000
+val SAMPLE_SIZE = 100000
 
 fun newLotteries() = List(SAMPLE_SIZE) { Lottery(rules) }
 
 fun main(args: Array<String>) {
 
-    val simpleGames = newLotteries().map { Game(it, byIndex { 0 }) }
+    val simpleGames = newLotteries().map { Game(it, ConstantStrategy()) }
 
-    val randomGames = newLotteries().map { Game(it, byIndex { count -> Random().nextInt(count) }) }
+    val randomGames = newLotteries().map { Game(it, RandomStrategy()) }
 
-    val changeGames = newLotteries().map { Game(it, byIndex { count -> count % 2 }) }
+    val changeGames = newLotteries().map { Game(it, HesitantStrategy()) }
 
-    val driftGames  = newLotteries().map { Game(it, byIndex { count -> 1 }) }
+    val driftGames  = newLotteries().map { Game(it, DriftStrategy()) }
 
     println("Simple Games: " + simpleGames.sumBy { it.play().toInt() })
     println("Random Games: " + randomGames.sumBy { it.play().toInt() })
