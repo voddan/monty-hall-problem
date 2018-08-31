@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions.*
 
 internal class LotteryTest {
 
-    val simpleRules = LotteryRules(numPriseBoxes = 1, numEmptyBoxes = 9) { left -> if(left > 1) 1 else 0 }
+    val simpleRules = LotteryRules(numPriseBoxes = 1, numEmptyBoxes = 9, numOpenBoxes = 1)
 
     @Test fun `number of boxes is exact`() {
         val lt = Lottery(simpleRules)

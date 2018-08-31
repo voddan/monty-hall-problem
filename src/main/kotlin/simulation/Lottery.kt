@@ -2,7 +2,7 @@ package simulation
 
 enum class Result { WIN, LOSS, KEEP_GOING }
 
-data class LotteryRules(val numPriseBoxes: Int, val numEmptyBoxes: Int, val howManyToOpen: (left: Int) -> Int)
+data class LotteryRules(val numPriseBoxes: Int, val numEmptyBoxes: Int, val numOpenBoxes: Int)
 
 class Lottery(val rules: LotteryRules) {
     val boxes: List<Box> = (List(rules.numPriseBoxes) { PriseBox() } + List(rules.numEmptyBoxes) { EmptyBox() }).shuffled()
@@ -11,28 +11,23 @@ class Lottery(val rules: LotteryRules) {
     val closedBoxes: List<Box> get() = boxes.slice(closedIndices)
 
     fun openBoxesExcept(index: Int) {
-        boxesWeCanOpen(index).forEach { it.open() }
-    }
-
-    fun check(index: Int): Result {
-        val num = boxesWeCanOpen(index).size
-
-        if(num == 0) {
-            return if(boxes[index] is PriseBox) Result.WIN else Result.LOSS
-        }
-
-        return Result.KEEP_GOING
-    }
-
-    private fun boxesWeCanOpen(guessIndex: Int): List<Box> {
-        val chosenBox = boxes[guessIndex]
+        val chosenBox = boxes[index]
         assert(chosenBox.isClosed)
 
         val leftBoxes = (closedBoxes - chosenBox).filterIsInstance<EmptyBox>()
+        leftBoxes.shuffled().take(rules.numOpenBoxes).forEach { it.open() }
+    }
 
-        val num = rules.howManyToOpen(closedBoxes.size - 1)
-        assert(num < leftBoxes.size)
+    fun check(index: Int): Result {
+        val anyEmptyBoxesLeft = (closedBoxes - boxes[index]).any { it is EmptyBox }
 
-        return leftBoxes.shuffled().take(num)
+        if (closedBoxes.size > 1 + 1 && anyEmptyBoxesLeft) {
+            return Result.KEEP_GOING
+        }
+
+        return when(boxes[index]) {
+            is PriseBox -> Result.WIN
+            is EmptyBox -> Result.LOSS
+        }
     }
 }

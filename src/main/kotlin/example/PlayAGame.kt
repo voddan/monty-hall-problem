@@ -6,7 +6,7 @@ import simulation.LotteryRules
 
 fun main(args: Array<String>) {
 
-    val rules = LotteryRules(numPriseBoxes = 1, numEmptyBoxes = 9) { left -> if(left > 1) 1 else 0 }
+    val rules = LotteryRules(numPriseBoxes = 1, numEmptyBoxes = 9, numOpenBoxes = 1)
     val lottery = Lottery(rules)
 
     val game = Game(lottery) { closedIndices -> closedIndices.first() }

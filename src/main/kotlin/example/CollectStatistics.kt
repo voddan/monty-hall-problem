@@ -6,7 +6,7 @@ import simulation.LotteryRules
 import simulation.byIndex
 import java.util.*
 
-val rules = LotteryRules(numPriseBoxes = 1, numEmptyBoxes = 9) { left -> if (left > 1) 1 else 0 }
+val rules = LotteryRules(numPriseBoxes = 1, numEmptyBoxes = 9, numOpenBoxes = 1)
 val SAMPLE_SIZE = 10000
 
 fun newLotteries() = List(SAMPLE_SIZE) { Lottery(rules) }
