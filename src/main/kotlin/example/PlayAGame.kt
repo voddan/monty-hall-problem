@@ -14,7 +14,7 @@ fun main(args: Array<String>) {
 
     val result = game.play()
 
-    print(game.recordStringBuilder)
+    print(game.diagram)
     print(result)
 }
 
