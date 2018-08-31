@@ -11,6 +11,8 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    testCompile "org.junit.jupiter:junit-jupiter-api:5.2.0"
 }
 
 compileKotlin {
