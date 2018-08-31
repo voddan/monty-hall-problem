@@ -18,7 +18,7 @@ class Game(val lottery: Lottery, val strategy: GameStrategy) {
             recordStringBuilder.append(lottery.diagram(guessIndex))
 
             if(!lottery.shouldKeepGoing(guessIndex))
-                return lottery.boxes[guessIndex] is PriseBox
+                return lottery.boxes[guessIndex].hasPrize
 
             lottery.openBoxesExcept(guessIndex)
         } while (true)

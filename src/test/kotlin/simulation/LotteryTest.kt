@@ -20,12 +20,12 @@ internal class LotteryTest {
 
     @Test fun `number of prise boxes in the beginning is exact`() {
         val lt = Lottery(simpleRules)
-        assertEquals(lt.rules.numPriseBoxes, lt.boxes.count { it is PriseBox })
+        assertEquals(lt.rules.numPriseBoxes, lt.boxes.count { it.hasPrize })
     }
 
     @Test fun `number of empty boxes in the beginning is exact`() {
         val lt = Lottery(simpleRules)
-        assertEquals(lt.rules.numEmptyBoxes, lt.boxes.count { it is EmptyBox })
+        assertEquals(lt.rules.numEmptyBoxes, lt.boxes.count { !it.hasPrize })
     }
 
     @Test fun `boxes are distinguishable`() {
@@ -84,23 +84,23 @@ internal class LotteryTest {
 
         val select1 = lt.selectABoxIndex(0)
         val opened1 = lt.openedBoxesIndices(select1).let { (before, after) -> before - after }
-        assertTrue(lt.boxes.slice(opened1).all { it is EmptyBox })
+        assertTrue(lt.boxes.slice(opened1).all { !it.hasPrize })
 
         val select2 = lt.selectABoxIndex(4)
         val opened2 = lt.openedBoxesIndices(select2).let { (before, after) -> before - after }
-        assertTrue(lt.boxes.slice(opened2).all { it is EmptyBox })
+        assertTrue(lt.boxes.slice(opened2).all { !it.hasPrize })
 
         val select3 = lt.selectABoxIndex(6)
         val opened3 = lt.openedBoxesIndices(select3).let { (before, after) -> before - after }
-        assertTrue(lt.boxes.slice(opened3).all { it is EmptyBox })
+        assertTrue(lt.boxes.slice(opened3).all { !it.hasPrize })
 
         val select4 = lt.selectABoxIndex(6)
         val opened4 = lt.openedBoxesIndices(select4).let { (before, after) -> before - after }
-        assertTrue(lt.boxes.slice(opened4).all { it is EmptyBox })
+        assertTrue(lt.boxes.slice(opened4).all { !it.hasPrize })
 
         val select5 = lt.selectABoxIndex(3)
         val opened5 = lt.openedBoxesIndices(select5).let { (before, after) -> before - after }
-        assertTrue(lt.boxes.slice(opened5).all { it is EmptyBox })
+        assertTrue(lt.boxes.slice(opened5).all { !it.hasPrize })
 
 
     }

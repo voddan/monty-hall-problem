@@ -17,7 +17,7 @@ class Lottery(val rules: LotteryRules) {
     }
 
     fun shouldKeepGoing(index: Int): Boolean {
-        val anyEmptyBoxesLeft = (closedBoxes - boxes[index]).any { it is EmptyBox }
+        val anyEmptyBoxesLeft = (closedBoxes - boxes[index]).any { !it.hasPrize }
 
         return closedBoxes.size > 2 && anyEmptyBoxesLeft
     }
