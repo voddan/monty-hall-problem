@@ -27,18 +27,18 @@ internal class BoxTest {
 
     @Test fun `Boxes has different non-blank symbols for states`() {
         val box1 = EmptyBox()
-        val s11 = box1.symbol()
+        val s11 = box1.diagram()
         box1.open()
-        val s12 = box1.symbol()
+        val s12 = box1.diagram()
 
         assertTrue(s11.isNotBlank())
         assertTrue(s12.isNotBlank())
         assertNotEquals(s11, s12)
 
         val box2 = PriseBox()
-        val s21 = box2.symbol()
+        val s21 = box2.diagram()
         box2.open()
-        val s22 = box2.symbol()
+        val s22 = box2.diagram()
 
         assertTrue(s21.isNotBlank())
         assertTrue(s22.isNotBlank())

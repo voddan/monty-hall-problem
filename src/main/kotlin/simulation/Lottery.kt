@@ -21,4 +21,15 @@ class Lottery(val rules: LotteryRules) {
 
         return closedBoxes.size > 2 && anyEmptyBoxesLeft
     }
+
+    fun diagram(selectedIndex: Int): String {
+        val selectedBox = boxes[selectedIndex]
+
+        return boxes.joinToString(separator = "", prefix = "[", postfix = "]\n") { box ->
+            if(box == selectedBox)
+                "(" + box.diagram() + ")"
+            else
+                " " + box.diagram() + " "
+        }
+    }
 }

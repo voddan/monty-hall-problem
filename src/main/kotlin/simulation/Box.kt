@@ -13,13 +13,13 @@ sealed class Box {
         state = State.OPEN
     }
 
-    abstract fun symbol(): String
+    abstract fun diagram(): String
 }
 
 class PriseBox : Box() {
-    override fun symbol() = if(isClosed) """🤗X""" else """!️🎁"""
+    override fun diagram() = if(isClosed) """🤗X""" else """!️🎁"""
 }
 
 class EmptyBox : Box() {
-    override fun symbol() = if(isClosed) """C""" else """🍋_"""
+    override fun diagram() = if(isClosed) """C""" else """🍋_"""
 }
