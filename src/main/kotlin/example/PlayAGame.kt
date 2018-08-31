@@ -5,9 +5,14 @@ import simulation.Game
 import simulation.Lottery
 import simulation.LotteryRules
 
-fun main(args: Array<String>) {
+val rules = LotteryRules(numPriseBoxes = 1, numEmptyBoxes = 9, numOpenBoxes = 1)
 
-    val rules = LotteryRules(numPriseBoxes = 1, numEmptyBoxes = 9, numOpenBoxes = 1)
+/**
+ * Play one game and see its diagram in the console.
+ *
+ * For adjustment try changing parameters in [rules]
+ * */
+fun main(args: Array<String>) {
     val lottery = Lottery(rules)
 
     val game = Game(lottery, ConstantStrategy())
