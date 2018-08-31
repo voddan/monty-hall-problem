@@ -1,7 +1,5 @@
 package simulation
 
-enum class Result { WIN, LOSS, KEEP_GOING }
-
 data class LotteryRules(val numPriseBoxes: Int, val numEmptyBoxes: Int, val numOpenBoxes: Int)
 
 class Lottery(val rules: LotteryRules) {
@@ -18,16 +16,9 @@ class Lottery(val rules: LotteryRules) {
         leftBoxes.shuffled().take(rules.numOpenBoxes).forEach { it.open() }
     }
 
-    fun check(index: Int): Result {
+    fun shouldKeepGoing(index: Int): Boolean {
         val anyEmptyBoxesLeft = (closedBoxes - boxes[index]).any { it is EmptyBox }
 
-        if (closedBoxes.size > 1 + 1 && anyEmptyBoxesLeft) {
-            return Result.KEEP_GOING
-        }
-
-        return when(boxes[index]) {
-            is PriseBox -> Result.WIN
-            is EmptyBox -> Result.LOSS
-        }
+        return closedBoxes.size > 2 && anyEmptyBoxesLeft
     }
 }

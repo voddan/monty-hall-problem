@@ -7,28 +7,20 @@ fun byIndex(strategyByIndex: (count: Int) -> Int): Strategy = { indices -> indic
 class Game(val lottery: Lottery, val strategy: Strategy) {
     val recordStringBuilder = StringBuilder()
 
-    fun playOne(): Result {
-        val guessIndex = strategy(lottery.closedIndices)
-        assert(lottery.boxes[guessIndex].isClosed)
-
-        recordStringBuilder.append(printLottery(guessIndex))
-
-        val status = lottery.check(guessIndex)
-        lottery.openBoxesExcept(guessIndex)
-
-        return status
-    }
-
     fun play(): Boolean {
         assert(recordStringBuilder.isEmpty())
 
-        var status: Result
         do {
-            status = playOne()
+            val guessIndex = strategy(lottery.closedIndices)
+            assert(lottery.boxes[guessIndex].isClosed)
 
-        } while (status == Result.KEEP_GOING)
+            recordStringBuilder.append(printLottery(guessIndex))
 
-        return (status == Result.WIN)
+            if(!lottery.shouldKeepGoing(guessIndex))
+                return lottery.boxes[guessIndex] is PriseBox
+
+            lottery.openBoxesExcept(guessIndex)
+        } while (true)
     }
 
     fun printLottery(guessIndex: Int): StringBuilder {
